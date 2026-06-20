@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aly ElAshmawy — Mechanical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0b; --bg2: #141412; --bg3: #1c1c19;
+  --border: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.15);
+  --text: #f0ede6; --text-muted: #8a877e; --text-dim: #5a5851;
+  --accent: #c8a96e; --accent2: #7eb89a; --accent-dim: rgba(200,169,110,0.12);
+  --serif: 'DM Serif Display', serif; --sans: 'Figtree', sans-serif; --mono: 'DM Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.7; font-size: 16px; overflow-x: hidden; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; background: rgba(13,13,11,0.85); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+.nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 3rem 6rem; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1200px; width: 100%; margin: 0 auto; align-items: center; }
+.hero-eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+.hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+h1 { font-family: var(--serif); font-size: clamp(3rem, 5vw, 5rem); line-height: 1.05; color: var(--text); margin-bottom: 1.5rem; font-weight: 400; }
+h1 em { color: var(--accent); font-style: italic; }
+.hero-desc { font-size: 17px; color: var(--text-muted); line-height: 1.75; max-width: 480px; margin-bottom: 2.5rem; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: 0.03em; text-decoration: none; border-radius: 2px; transition: all 0.2s; cursor: pointer; border: none; }
+.btn-primary { background: var(--accent); color: #0d0d0b; }
+.btn-primary:hover { background: #dbbf80; }
+.btn-outline { background: transparent; color: var(--text); border: 0.5px solid var(--border-strong); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 0.5px solid var(--border); }
+.stat { background: var(--bg2); padding: 2rem; }
+.stat-number { font-family: var(--serif); font-size: 2.75rem; color: var(--accent); line-height: 1; margin-bottom: 0.5rem; }
+.stat-label { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+section { padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; }
+.section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.section-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); max-width: 200px; }
+h2 { font-family: var(--serif); font-size: clamp(2rem, 3vw, 2.75rem); font-weight: 400; color: var(--text); margin-bottom: 3rem; line-height: 1.15; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 0.5px solid var(--border); margin-bottom: 3rem; }
+.skill-block { background: var(--bg2); padding: 1.75rem; }
+.skill-block-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag { font-size: 12px; font-weight: 500; color: var(--text-muted); background: var(--bg3); border: 0.5px solid var(--border); padding: 0.3rem 0.75rem; border-radius: 2px; letter-spacing: 0.02em; }
+
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1px; background: var(--border); border: 0.5px solid var(--border); }
+.project-card { background: var(--bg2); display: flex; flex-direction: column; transition: background 0.2s; }
+.project-card:hover { background: var(--bg3); }
+.project-card-body { padding: 2.25rem; display: flex; flex-direction: column; flex: 1; }
+.project-type { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.project-card h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--text); margin-bottom: 1rem; line-height: 1.2; }
+.project-card p { font-size: 14px; color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem; }
+.project-highlights { list-style: none; margin-bottom: 1.5rem; }
+.project-highlights li { font-size: 13px; color: var(--text-muted); padding: 0.4rem 0; border-top: 0.5px solid var(--border); display: flex; align-items: baseline; gap: 0.5rem; }
+.project-highlights li::before { content: '\2192'; color: var(--accent); font-size: 12px; flex-shrink: 0; }
+.project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
+.tool-tag { font-family: var(--mono); font-size: 11px; color: var(--accent2); background: rgba(126,184,154,0.08); border: 0.5px solid rgba(126,184,154,0.2); padding: 0.25rem 0.6rem; border-radius: 2px; }
+
+.stl-viewer-wrap { position: relative; width: 100%; height: 240px; background: var(--bg3); border-bottom: 0.5px solid var(--border); overflow: hidden; cursor: grab; }
+.stl-viewer-wrap:active { cursor: grabbing; }
+.stl-canvas { width: 100%; height: 100%; display: block; }
+.stl-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem; text-align: center; }
+.stl-placeholder-icon { width: 48px; height: 48px; border: 0.5px solid var(--border-strong); border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+.stl-placeholder-icon svg { width: 24px; height: 24px; stroke: var(--text-dim); fill: none; stroke-width: 1.5; }
+.stl-placeholder p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.stl-placeholder span { font-size: 12px; color: var(--text-dim); opacity: 0.6; }
+.stl-loading { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; background: var(--bg3); }
+
+.stl-overlay-btn { position: absolute; bottom: 10px; right: 10px; background: rgba(13,13,11,0.8); border: 0.5px solid var(--border-strong); color: var(--text-muted); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.75rem; cursor: pointer; border-radius: 2px; transition: color 0.2s, border-color 0.2s; display: flex; align-items: center; gap: 0.4rem; backdrop-filter: blur(4px); }
+.stl-overlay-btn:hover { color: var(--accent); border-color: var(--accent); }
+.stl-overlay-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+.stl-hint { position: absolute; bottom: 10px; left: 10px; font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; pointer-events: none; }
+.stl-upload-btn { position: absolute; top: 10px; right: 10px; background: rgba(200,169,110,0.12); border: 0.5px solid rgba(200,169,110,0.3); color: var(--accent); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.75rem; cursor: pointer; border-radius: 2px; transition: background 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+.stl-upload-btn:hover { background: rgba(200,169,110,0.2); }
+.stl-upload-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+.stl-upload-input { display: none; }
+
+/* VIEWCUBE */
+.viewcube-mount { position: absolute; top: 12px; left: 12px; display: none; flex-direction: column; align-items: center; gap: 6px; z-index: 6; }
+.viewcube { width: 56px; height: 56px; perspective: 260px; }
+.viewcube-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+.viewcube-face { position: absolute; width: 56px; height: 56px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); background: rgba(20,20,18,0.82); border: 0.5px solid var(--border-strong); }
+.vc-cell { display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.12s; }
+.vc-cell:hover { background: var(--accent); }
+.vc-center { font-family: var(--mono); font-size: 7px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+.vc-center:hover { color: #0d0d0b; }
+.viewcube-face:hover .vc-corner, .viewcube-face:hover .vc-edge { box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.07); }
+.vc-front  { transform: translateZ(28px); }
+.vc-back   { transform: rotateY(180deg) translateZ(28px); }
+.vc-right  { transform: rotateY(90deg) translateZ(28px); }
+.vc-left   { transform: rotateY(-90deg) translateZ(28px); }
+.vc-top    { transform: rotateX(90deg) translateZ(28px); }
+.vc-bottom { transform: rotateX(-90deg) translateZ(28px); }
+.viewcube-home { font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); background: rgba(20,20,18,0.82); border: 0.5px solid var(--border-strong); border-radius: 2px; padding: 0.25rem 0.6rem; cursor: pointer; transition: color 0.15s, border-color 0.15s; display: flex; align-items: center; gap: 0.3rem; }
+.viewcube-home:hover { color: var(--accent); border-color: var(--accent); }
+.viewcube-home svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ANGLE CONTROL PANEL */
+.angle-control { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10px; color: var(--text-muted); background: rgba(13,13,11,0.85); border: 0.5px solid var(--border-strong); border-radius: 2px; padding: 0.3rem 0.55rem; backdrop-filter: blur(4px); white-space: nowrap; z-index: 7; max-width: calc(100% - 20px); }
+.angle-lbl { color: var(--accent); letter-spacing: 0.04em; text-transform: uppercase; }
+.angle-input { width: 36px; background: var(--bg3); border: 0.5px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 10px; padding: 2px 3px; border-radius: 2px; text-align: center; }
+.angle-input:focus { outline: none; border-color: var(--accent); }
+.angle-sethome { background: rgba(200,169,110,0.12); border: 0.5px solid rgba(200,169,110,0.3); color: var(--accent); font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; cursor: pointer; transition: background 0.15s; }
+.angle-sethome:hover { background: rgba(200,169,110,0.2); }
+
+/* PHOTO SLIDER */
+.photo-strip { position: relative; height: 180px; background: var(--bg3); border-bottom: 0.5px solid var(--border); overflow: hidden; }
+.photo-track { position: absolute; inset: 0; }
+.photo-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s ease; }
+.photo-slide.active { opacity: 1; }
+.photo-slide img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.photo-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; }
+.photo-empty svg { width: 28px; height: 28px; stroke: var(--text-dim); fill: none; stroke-width: 1.5; }
+.photo-empty p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.photo-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; display: none; align-items: center; justify-content: center; background: rgba(13,13,11,0.7); border: 0.5px solid var(--border-strong); color: var(--text-muted); cursor: pointer; border-radius: 2px; font-size: 16px; line-height: 1; backdrop-filter: blur(4px); transition: color 0.15s, border-color 0.15s; z-index: 3; }
+.photo-arrow:hover { color: var(--accent); border-color: var(--accent); }
+.photo-prev { left: 10px; }
+.photo-next { right: 10px; }
+.photo-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: none; gap: 6px; z-index: 3; }
+.photo-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; transition: background 0.15s; }
+.photo-dot.active { background: var(--accent); }
+.photo-upload-btn { position: absolute; top: 10px; right: 10px; z-index: 4; background: rgba(200,169,110,0.12); border: 0.5px solid rgba(200,169,110,0.3); color: var(--accent); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.75rem; cursor: pointer; border-radius: 2px; transition: background 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+.photo-upload-btn:hover { background: rgba(200,169,110,0.2); }
+.photo-upload-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+.photo-upload-input { display: none; }
+
+.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; }
+.modal-backdrop.open { display: flex; }
+.modal-inner { width: 90vw; max-width: 1000px; height: 80vh; background: var(--bg2); border: 0.5px solid var(--border-strong); position: relative; display: flex; flex-direction: column; }
+.modal-header { padding: 1rem 1.5rem; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.modal-title { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+.modal-close { background: none; border: 0.5px solid var(--border); color: var(--text-muted); width: 28px; height: 28px; cursor: pointer; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: border-color 0.2s, color 0.2s; }
+.modal-close:hover { border-color: var(--text-muted); color: var(--text); }
+.modal-canvas-wrap { flex: 1; position: relative; overflow: hidden; cursor: grab; }
+.modal-canvas-wrap:active { cursor: grabbing; }
+.modal-canvas { width: 100%; height: 100%; display: block; }
+.modal-controls { padding: 0.75rem 1.5rem; border-top: 0.5px solid var(--border); display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+.modal-hint { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.06em; }
+.modal-reset { margin-left: auto; background: none; border: 0.5px solid var(--border); color: var(--text-muted); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.9rem; cursor: pointer; border-radius: 2px; transition: border-color 0.2s, color 0.2s; }
+.modal-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+.exp-list { display: flex; flex-direction: column; border: 0.5px solid var(--border); }
+.exp-item { padding: 2rem 2.25rem; border-bottom: 0.5px solid var(--border); display: grid; grid-template-columns: 200px 1fr; gap: 2rem; transition: background 0.2s; }
+.exp-item:last-child { border-bottom: none; }
+.exp-item:hover { background: var(--bg2); }
+.exp-period { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+.exp-company { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.exp-content h3 { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 0.75rem; }
+.exp-content p { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+
+.personal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 0.5px solid var(--border); }
+.personal-card { background: var(--bg2); padding: 2rem; }
+.personal-card h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--text); margin-bottom: 0.75rem; }
+.personal-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+.contact-section { border-top: 0.5px solid var(--border); padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.contact-heading { font-family: var(--serif); font-size: clamp(2rem, 3vw, 3rem); font-weight: 400; color: var(--text); margin-bottom: 1rem; line-height: 1.15; }
+.contact-heading em { font-style: italic; color: var(--accent); }
+.contact-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 2rem; }
+.contact-details { display: flex; flex-direction: column; gap: 1rem; }
+.contact-row { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--bg2); border: 0.5px solid var(--border); text-decoration: none; transition: border-color 0.2s; }
+.contact-row:hover { border-color: var(--accent); }
+.contact-row-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; width: 60px; }
+.contact-row-val { font-size: 14px; color: var(--text); }
+.visa-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 11px; color: var(--accent2); background: rgba(126,184,154,0.08); border: 0.5px solid rgba(126,184,154,0.2); padding: 0.4rem 0.9rem; border-radius: 2px; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 1.25rem; }
+
+footer { border-top: 0.5px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+.full-divider { border: none; border-top: 0.5px solid var(--border); max-width: 100%; margin: 0; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.7s ease forwards; }
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.25s; opacity: 0; }
+.delay-3 { animation-delay: 0.4s; opacity: 0; }
+.delay-4 { animation-delay: 0.55s; opacity: 0; }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+  .hero { padding: 7rem 1.5rem 4rem; } .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+  section { padding: 4rem 1.5rem; } .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  .personal-grid { grid-template-columns: 1fr; } .contact-section { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
+  footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Aly ElAshmawy</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero" id="about">
+  <div class="hero-grid">
+    <div>
+      <p class="hero-eyebrow fade-up delay-1">Graduate Mechanical Engineer</p>
+      <h1 class="fade-up delay-2">Design.<br><em>Analyse.</em><br>Build.</h1>
+      <p class="hero-desc fade-up delay-3">BEng Mechanical Engineering (AUT, 2025). Experienced in shaft design, FEA, drivetrain specification, and rapid prototyping. Currently based in London and available immediately on a UK Youth Mobility Visa.</p>
+      <div class="hero-cta fade-up delay-4">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-stats fade-up delay-3">
+      <div class="stat"><div class="stat-number">400L</div><div class="stat-label">Mixer drum capacity designed</div></div>
+      <div class="stat"><div class="stat-number">15+</div><div class="stat-label">FDM specimens tested</div></div>
+      <div class="stat"><div class="stat-number">IE3</div><div class="stat-label">Motor efficiency class selected</div></div>
+      <div class="stat"><div class="stat-number">93.8</div><div class="stat-label">MPa max FEA Von Mises stress</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<section id="skills">
+  <p class="section-label">Capabilities</p>
+  <h2>Core Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-block"><p class="skill-block-label">CAD and Design</p><div class="skill-tags"><span class="tag">SolidWorks</span><span class="tag">Fusion 360</span><span class="tag">AutoCAD</span><span class="tag">Technical Drawing</span><span class="tag">GD&T</span></div></div>
+    <div class="skill-block"><p class="skill-block-label">Analysis</p><div class="skill-tags"><span class="tag">SolidWorks FEA</span><span class="tag">MATLAB</span><span class="tag">Python</span><span class="tag">Fatigue Analysis</span><span class="tag">Shigley Methods</span></div></div>
+    <div class="skill-block"><p class="skill-block-label">Manufacturing</p><div class="skill-tags"><span class="tag">FDM 3D Printing</span><span class="tag">Rapid Prototyping</span><span class="tag">Tolerancing</span><span class="tag">Mechanical Assembly</span></div></div>
+    <div class="skill-block"><p class="skill-block-label">Industry</p><div class="skill-tags"><span class="tag">CMMS</span><span class="tag">P&ID Reading</span><span class="tag">Planned Maintenance</span><span class="tag">Spare Parts Procurement</span></div></div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<section id="projects">
+  <p class="section-label">Work</p>
+  <h2>Engineering Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="stl-viewer-wrap" id="wrap-mixer">
+        <canvas class="stl-canvas" id="canvas-mixer"></canvas>
+        <div class="stl-placeholder" id="placeholder-mixer">
+          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <p>Motor and Gearbox Assembly</p>
+          <span>Upload OBJ plus MTL to enable 3D viewer</span>
+        </div>
+        <div class="stl-loading" id="loading-mixer">Loading model...</div>
+        <div class="viewcube-mount" id="viewcube-mixer"></div>
+        <label class="stl-upload-btn" for="upload-mixer">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload OBJ + MTL
+        </label>
+        <input class="stl-upload-input" type="file" id="upload-mixer" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
+        <button class="stl-overlay-btn" id="fullscreen-mixer" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          Fullscreen
+        </button>
+        <span class="stl-hint" id="hint-mixer" style="display:none">Drag to rotate, scroll to zoom</span>
+        <div class="angle-readout" id="readout-mixer">Tilt 0&deg; Turn 0&deg;</div>
+      </div>
+      <div class="photo-strip" id="photos-mixer">
+        <div class="photo-track" id="phototrack-mixer"></div>
+        <div class="photo-empty" id="photoempty-mixer">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <p>Add project photos</p>
+        </div>
+        <button class="photo-arrow photo-prev" id="photoprev-mixer" aria-label="Previous">&#8249;</button>
+        <button class="photo-arrow photo-next" id="photonext-mixer" aria-label="Next">&#8250;</button>
+        <div class="photo-dots" id="photodots-mixer"></div>
+        <label class="photo-upload-btn" for="photoupload-mixer"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
+        <input type="file" id="photoupload-mixer" accept="image/*" multiple class="photo-upload-input">
+      </div>
+      <div class="project-card-body">
+        <p class="project-type">University Group Project, 2025</p>
+        <h3>Towable Electric Concrete Mixer</h3>
+        <p>Designed the mechanical power transmission drivetrain for a towable electric concrete mixer. Responsible for shaft sizing, bearing selection, FEA validation, and full drivetrain specification including the motor weather cover.</p>
+        <ul class="project-highlights">
+          <li>Shaft sized to 42mm using Shigley fatigue analysis with a safety factor of 1.75</li>
+          <li>FEA confirmed Von Mises stress of 93.8 MPa, well below the 390 MPa yield limit</li>
+          <li>Specified ABB IE3 motor, Renold JPM worm gearbox, and Tsubaki RS35 roller chain</li>
+          <li>Deep groove ball bearings with a calculated life of 11,451 hours at 320 RPM</li>
+          <li>NZTA trailer compliance achieved under 750 kg unbraked weight limit</li>
+        </ul>
+        <div class="project-tools">
+          <span class="tool-tag">SolidWorks</span><span class="tool-tag">FEA</span><span class="tool-tag">Shigley</span><span class="tool-tag">Drivetrain Design</span><span class="tool-tag">NTN Bearings</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="stl-viewer-wrap" id="wrap-fdm">
+        <canvas class="stl-canvas" id="canvas-fdm"></canvas>
+        <div class="stl-placeholder" id="placeholder-fdm">
+          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <p>FDM Test Rig</p>
+          <span>Upload OBJ plus MTL to enable 3D viewer</span>
+        </div>
+        <div class="stl-loading" id="loading-fdm">Loading model...</div>
+        <div class="viewcube-mount" id="viewcube-fdm"></div>
+        <label class="stl-upload-btn" for="upload-fdm">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload OBJ + MTL
+        </label>
+        <input class="stl-upload-input" type="file" id="upload-fdm" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
+        <button class="stl-overlay-btn" id="fullscreen-fdm" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          Fullscreen
+        </button>
+        <span class="stl-hint" id="hint-fdm" style="display:none">Drag to rotate, scroll to zoom</span>
+        <div class="angle-readout" id="readout-fdm">Tilt 0&deg; Turn 0&deg;</div>
+      </div>
+      <div class="photo-strip" id="photos-fdm">
+        <div class="photo-track" id="phototrack-fdm"></div>
+        <div class="photo-empty" id="photoempty-fdm">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <p>Add project photos</p>
+        </div>
+        <button class="photo-arrow photo-prev" id="photoprev-fdm" aria-label="Previous">&#8249;</button>
+        <button class="photo-arrow photo-next" id="photonext-fdm" aria-label="Next">&#8250;</button>
+        <div class="photo-dots" id="photodots-fdm"></div>
+        <label class="photo-upload-btn" for="photoupload-fdm"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
+        <input type="file" id="photoupload-fdm" accept="image/*" multiple class="photo-upload-input">
+      </div>
+      <div class="project-card-body">
+        <p class="project-type">Final Year Research, 2025</p>
+        <h3>Hysteresis and Plastic Failure of FDM Infill Structures</h3>
+        <p>Designed and built a custom compression test rig to characterise viscoelastic spring-back behaviour and plastic failure of FDM-printed specimens across PLA, TPU, and ABS, with intended application to 3D-printed orthotics.</p>
+        <ul class="project-highlights">
+          <li>15 specimens per configuration tested per ASTM D695</li>
+          <li>Printed on Bambu Lab X1C, outputs digitised using PlotDigitizer</li>
+          <li>Automated data processing in MATLAB to extract stress-strain correlations</li>
+          <li>Established relationships between infill parameters, spring-back, and hysteresis</li>
+        </ul>
+        <div class="project-tools">
+          <span class="tool-tag">MATLAB</span><span class="tool-tag">FDM Printing</span><span class="tool-tag">ASTM D695</span><span class="tool-tag">Test Rig Design</span><span class="tool-tag">Data Analysis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="stl-viewer-wrap" id="wrap-padlock">
+        <canvas class="stl-canvas" id="canvas-padlock"></canvas>
+        <div class="stl-placeholder" id="placeholder-padlock">
+          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <p>Padlock Mechanism</p>
+          <span>Upload OBJ plus MTL to enable 3D viewer</span>
+        </div>
+        <div class="stl-loading" id="loading-padlock">Loading model...</div>
+        <div class="viewcube-mount" id="viewcube-padlock"></div>
+        <label class="stl-upload-btn" for="upload-padlock">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload OBJ + MTL
+        </label>
+        <input class="stl-upload-input" type="file" id="upload-padlock" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
+        <button class="stl-overlay-btn" id="fullscreen-padlock" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          Fullscreen
+        </button>
+        <span class="stl-hint" id="hint-padlock" style="display:none">Drag to rotate, scroll to zoom</span>
+        <div class="angle-readout" id="readout-padlock">Tilt 0&deg; Turn 0&deg;</div>
+      </div>
+      <div class="photo-strip" id="photos-padlock">
+        <div class="photo-track" id="phototrack-padlock"></div>
+        <div class="photo-empty" id="photoempty-padlock">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <p>Add project photos</p>
+        </div>
+        <button class="photo-arrow photo-prev" id="photoprev-padlock" aria-label="Previous">&#8249;</button>
+        <button class="photo-arrow photo-next" id="photonext-padlock" aria-label="Next">&#8250;</button>
+        <div class="photo-dots" id="photodots-padlock"></div>
+        <label class="photo-upload-btn" for="photoupload-padlock"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
+        <input type="file" id="photoupload-padlock" accept="image/*" multiple class="photo-upload-input">
+      </div>
+      <div class="project-card-body">
+        <p class="project-type">Contract Deliverable, 2024</p>
+        <h3>Disassemblable Padlock for Black Hat Conference</h3>
+        <p>Designed and 3D-printed a fully functional, multi-part disassemblable padlock mechanism for the Lock Picking Village at Black Hat, a world-first activity of its type at a cybersecurity conference.</p>
+        <ul class="project-highlights">
+          <li>Multi-part PLA assembly requiring sub-millimetre tolerancing across all interfaces</li>
+          <li>Slicer parameters iterated per part to achieve consistent fit and repeatable action</li>
+          <li>Survived hundreds of participants handling the mechanism over multiple days</li>
+        </ul>
+        <div class="project-tools">
+          <span class="tool-tag">Fusion 360</span><span class="tool-tag">FDM Printing</span><span class="tool-tag">Tolerancing</span><span class="tool-tag">Iteration</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<section id="experience">
+  <p class="section-label">Industry</p>
+  <h2>Professional Experience</h2>
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-meta"><p class="exp-period">Dec 2024 to Mar 2025</p><p class="exp-company">Nile Sugar, Egypt</p></div>
+      <div class="exp-content">
+        <h3>Mechanical Maintenance Engineer Intern</h3>
+        <p>Supervised teams of 3 to 5 technicians on planned and reactive maintenance across 8 main and 7 auxiliary factory stations in a continuous-operation facility. Managed spare parts procurement end-to-end, conducted post-maintenance functional testing, and performed live walkthrough inspections to identify early-stage mechanical failures before they caused unplanned downtime.</p>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-meta"><p class="exp-period">Jun to Oct 2024</p><p class="exp-company">Axenic, New Zealand</p></div>
+      <div class="exp-content">
+        <h3>3D Printing Design Contractor</h3>
+        <p>Sole designer and manufacturer of a disassemblable padlock mechanism for the Lock Picking Village at Black Hat cybersecurity conference, a world-first activity of its type at a security event. Iterated each component through multiple print cycles, adjusting tolerances and slicer parameters to achieve consistent fit and reliable mechanical action under repeated handling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<section>
+  <p class="section-label">Personal</p>
+  <h2>Automotive Projects</h2>
+  <div class="personal-grid">
+    <div class="personal-card">
+      <h3>BMW Engine and Transmission Swap</h3>
+      <p>Planned and executed a full engine and transmission swap including hydraulic system work, tolerancing, and safety verification. Developed independent fault diagnosis capability without workshop infrastructure or formal supervision.</p>
+    </div>
+    <div class="personal-card">
+      <h3>Audi S4 Restoration</h3>
+      <p>Purchased a non-roadworthy Audi S4 and restored it to full roadworthiness compliance. Work included transmission removal, gasket and seal replacement, axle shaft and sensor work, all completed independently over two years.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<div class="contact-section" id="contact">
+  <div>
+    <h2 class="contact-heading">Let's talk<br><em>engineering.</em></h2>
+    <p class="contact-sub">Available immediately in London. Open to graduate mechanical engineering roles across design, analysis, and product development.</p>
+    <span class="visa-badge">UK Youth Mobility Visa, No Sponsorship Required</span>
+  </div>
+  <div class="contact-details">
+    <a class="contact-row" href="mailto:aliaaelashmawy@gmail.com"><span class="contact-row-label">Email</span><span class="contact-row-val">aliaaelashmawy@gmail.com</span></a>
+    <a class="contact-row" href="tel:+447426092124"><span class="contact-row-label">Phone</span><span class="contact-row-val">+44 7426 092124</span></a>
+    <a class="contact-row" href="https://linkedin.com/in/alyelashmawy" target="_blank"><span class="contact-row-label">LinkedIn</span><span class="contact-row-val">linkedin.com/in/alyelashmawy</span></a>
+    <a class="contact-row" href="#"><span class="contact-row-label">Location</span><span class="contact-row-val">London, UK</span></a>
+  </div>
+</div>
+
+<footer>
+  <p>Aly ElAshmawy, Mechanical Engineer</p>
+  <p>BEng Hons, Auckland University of Technology, 2025</p>
+</footer>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">3D Model</span>
+      <button class="modal-close" id="modal-close">&#x2715;</button>
+    </div>
+    <div class="modal-canvas-wrap" id="modal-canvas-wrap">
+      <canvas class="modal-canvas" id="modal-canvas"></canvas>
+      <div class="viewcube-mount" id="viewcube-modal"></div>
+      <div class="angle-readout" id="readout-modal">Tilt 0&deg; Turn 0&deg;</div>
+    </div>
+    <div class="modal-controls">
+      <span class="modal-hint">Drag to rotate, scroll to zoom, right-click drag to pan</span>
+      <button class="modal-reset" id="modal-reset">Reset View</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACCENT_COLOR = 0xc8a96e;
+const BG_COLOR = 0x1c1c19;
+// Default 3/4 isometric starting angle (radians), looking down onto the model
+const INIT_ROT_X = 0.5;
+const INIT_ROT_Y = 0.6;
+// ViewCube snap targets [rotationX, rotationY] in radians
+const VIEWS = {
+  front:  [0, 0],
+  back:   [0, Math.PI],
+  right:  [0, Math.PI/2],
+  left:   [0, -Math.PI/2],
+  top:    [Math.PI/2, 0],
+  bottom: [-Math.PI/2, 0],
+  home:   [INIT_ROT_X, INIT_ROT_Y]
+};
+
+/* ---------- STL PARSING ---------- */
+function parseSTL(buffer) {
+  const header = new TextDecoder().decode(new Uint8Array(buffer, 0, Math.min(80, buffer.byteLength)));
+  if (header.trim().startsWith('solid') && !looksBinary(buffer)) {
+    return parseASCIISTL(new TextDecoder().decode(buffer));
+  }
+  return parseBinarySTL(buffer);
+}
+function looksBinary(buffer) {
+  if (buffer.byteLength < 84) return false;
+  const view = new DataView(buffer);
+  const numTri = view.getUint32(80, true);
+  return (84 + numTri * 50) === buffer.byteLength;
+}
+function parseBinarySTL(buffer) {
+  const view = new DataView(buffer);
+  const numTriangles = view.getUint32(80, true);
+  const positions = new Float32Array(numTriangles * 9);
+  const normals = new Float32Array(numTriangles * 9);
+  let offset = 84;
+  for (let i = 0; i < numTriangles; i++) {
+    const nx = view.getFloat32(offset, true), ny = view.getFloat32(offset+4, true), nz = view.getFloat32(offset+8, true); offset += 12;
+    for (let v = 0; v < 3; v++) {
+      const idx = i*9 + v*3;
+      positions[idx] = view.getFloat32(offset, true); positions[idx+1] = view.getFloat32(offset+4, true); positions[idx+2] = view.getFloat32(offset+8, true); offset += 12;
+      normals[idx] = nx; normals[idx+1] = ny; normals[idx+2] = nz;
+    }
+    offset += 2;
+  }
+  return [{ positions, normals, color: null, opacity: 1 }];
+}
+function parseASCIISTL(text) {
+  const posArr = [], normArr = [];
+  const faceRe = /facet normal\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)[\s\S]*?vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
+  let m;
+  while ((m = faceRe.exec(text)) !== null) {
+    const nx=+m[1],ny=+m[2],nz=+m[3];
+    posArr.push(+m[4],+m[5],+m[6],+m[7],+m[8],+m[9],+m[10],+m[11],+m[12]);
+    for(let i=0;i<3;i++) normArr.push(nx,ny,nz);
+  }
+  return [{ positions: new Float32Array(posArr), normals: new Float32Array(normArr), color: null, opacity: 1 }];
+}
+
+/* ---------- MTL PARSING ---------- */
+function parseMTL(text) {
+  const materials = {};
+  let cur = null;
+  text.split(/\r?\n/).forEach(raw => {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) return;
+    const p = line.split(/\s+/);
+    const key = p[0].toLowerCase();
+    if (key === 'newmtl') { cur = line.slice(line.indexOf(' ')+1).trim(); materials[cur] = { color:[0.78,0.78,0.78], opacity:1, map:null, shininess:30 }; }
+    else if (!cur) return;
+    else if (key === 'kd') materials[cur].color = [parseFloat(p[1]), parseFloat(p[2]), parseFloat(p[3])];
+    else if (key === 'd') materials[cur].opacity = parseFloat(p[1]);
+    else if (key === 'tr') materials[cur].opacity = 1 - parseFloat(p[1]);
+    else if (key === 'ns') materials[cur].shininess = Math.max(1, Math.min(100, parseFloat(p[1]) || 30));
+    else if (key === 'map_kd') materials[cur].map = p.slice(1).join(' ').split(/[\\/]/).pop();
+  });
+  return materials;
+}
+
+/* ---------- OBJ PARSING (per-material groups) ---------- */
+function parseOBJ(text) {
+  const V = [], VT = [], VN = [];
+  const groups = {};
+  let cur = '__default__';
+  let hasNormals = false;
+  function g(m){ if(!groups[m]) groups[m] = { positions:[], normals:[], uvs:[] }; return groups[m]; }
+  const lines = text.split(/\r?\n/);
+  for (let raw of lines) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    const p = line.split(/\s+/);
+    const key = p[0];
+    if (key === 'v') V.push([+p[1], +p[2], +p[3]]);
+    else if (key === 'vt') VT.push([+p[1], +(p[2]||0)]);
+    else if (key === 'vn') { VN.push([+p[1], +p[2], +p[3]]); hasNormals = true; }
+    else if (key === 'usemtl') cur = line.slice(line.indexOf(' ')+1).trim();
+    else if (key === 'f') {
+      const verts = p.slice(1).map(tok => {
+        const a = tok.split('/');
+        const vi = parseInt(a[0],10);
+        const ti = a[1] ? parseInt(a[1],10) : NaN;
+        const ni = a[2] ? parseInt(a[2],10) : NaN;
+        return {
+          v: vi < 0 ? V.length + vi : vi - 1,
+          t: isNaN(ti) ? -1 : (ti < 0 ? VT.length + ti : ti - 1),
+          n: isNaN(ni) ? -1 : (ni < 0 ? VN.length + ni : ni - 1)
+        };
+      });
+      const grp = g(cur);
+      for (let i = 1; i < verts.length - 1; i++) {
+        const tri = [verts[0], verts[i], verts[i+1]];
+        for (const vert of tri) {
+          const pos = V[vert.v];
+          if (!pos) continue;
+          grp.positions.push(pos[0], pos[1], pos[2]);
+          if (vert.n >= 0 && VN[vert.n]) { const n = VN[vert.n]; grp.normals.push(n[0],n[1],n[2]); }
+          else grp.normals.push(0,0,0);
+          if (vert.t >= 0 && VT[vert.t]) { const t = VT[vert.t]; grp.uvs.push(t[0], t[1]); }
+          else grp.uvs.push(0,0);
+        }
+      }
+    }
+  }
+  return { groups, hasNormals };
+}
+
+/* ---------- BUILD THREE OBJECT ---------- */
+function buildOBJObject(parsed, materials, textureMap) {
+  const root = new THREE.Group();
+  for (const matName in parsed.groups) {
+    const grp = parsed.groups[matName];
+    if (grp.positions.length === 0) continue;
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(grp.positions), 3));
+    if (parsed.hasNormals) geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(grp.normals), 3));
+    else geometry.computeVertexNormals();
+    geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(grp.uvs), 2));
+
+    const def = materials && materials[matName];
+    const params = { shininess: def ? def.shininess : 30, side: THREE.DoubleSide, specular: 0x222222 };
+    if (def) {
+      params.color = new THREE.Color(def.color[0], def.color[1], def.color[2]);
+      if (def.opacity < 1) { params.transparent = true; params.opacity = def.opacity; }
+      if (def.map && textureMap && textureMap[def.map]) params.map = textureMap[def.map];
+    } else {
+      params.color = new THREE.Color(ACCENT_COLOR);
+    }
+    root.add(new THREE.Mesh(geometry, new THREE.MeshPhongMaterial(params)));
+  }
+  return root;
+}
+
+function buildSTLObject(sections) {
+  const root = new THREE.Group();
+  sections.forEach(s => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(s.positions, 3));
+    geometry.setAttribute('normal', new THREE.BufferAttribute(s.normals, 3));
+    const material = new THREE.MeshPhongMaterial({ color: ACCENT_COLOR, shininess: 40, specular: 0x332200 });
+    root.add(new THREE.Mesh(geometry, material));
+  });
+  return root;
+}
+
+function loadTextures(imageFiles) {
+  const map = {};
+  const loader = new THREE.TextureLoader();
+  return Promise.all(imageFiles.map(f => new Promise(res => {
+    const url = URL.createObjectURL(f);
+    loader.load(url, tex => { map[f.name] = tex; res(); }, undefined, () => res());
+  }))).then(() => map);
+}
+
+/* ---------- VIEWER ---------- */
+const viewers = {};
+
+const ISO_TILT = Math.atan(1 / Math.SQRT2); // ~35.26 deg, true isometric tilt
+const EDGE_TILT = Math.PI / 4;              // 45 deg for edge-on views
+
+// Resolve a signed corner/edge/face vector to [rotationX, rotationY]
+function viewForSigns(s) {
+  const sx = s[0], sy = s[1], sz = s[2];
+  const zeros = (sx === 0) + (sy === 0) + (sz === 0);
+  if (zeros === 2) {
+    if (sz > 0) return [0, 0];
+    if (sz < 0) return [0, Math.PI];
+    if (sx > 0) return [0, Math.PI / 2];
+    if (sx < 0) return [0, -Math.PI / 2];
+    if (sy > 0) return [Math.PI / 2, 0];
+    return [-Math.PI / 2, 0];
+  }
+  if (zeros === 1) {
+    if (sy === 0) return [0, sz > 0 ? sx * Math.PI / 4 : sx * 3 * Math.PI / 4];
+    if (sx === 0) return [sy > 0 ? EDGE_TILT : -EDGE_TILT, sz > 0 ? 0 : Math.PI];
+    return [sy > 0 ? EDGE_TILT : -EDGE_TILT, sx > 0 ? Math.PI / 2 : -Math.PI / 2];
+  }
+  return [sy > 0 ? ISO_TILT : -ISO_TILT, sz > 0 ? sx * Math.PI / 4 : sx * 3 * Math.PI / 4];
+}
+
+// Tween a viewer's model to explicit target angles [rotX, rotY, optional rotZ]
+function setViewAngles(state, target, resume) {
+  if (!state.obj) return;
+  state.autoRotate = false;
+  let cy = state.obj.rotation.y % (Math.PI * 2);
+  while (cy - target[1] > Math.PI) cy -= Math.PI * 2;
+  while (cy - target[1] < -Math.PI) cy += Math.PI * 2;
+  state.obj.rotation.y = cy;
+  const tz = target.length > 2 ? target[2] : 0;
+  let cz = state.obj.rotation.z % (Math.PI * 2);
+  while (cz - tz > Math.PI) cz -= Math.PI * 2;
+  while (cz - tz < -Math.PI) cz += Math.PI * 2;
+  state.obj.rotation.z = cz;
+  state.tween = { tx: target[0], ty: target[1], tz: tz, resume: !!resume };
+}
+
+// Snap a viewer's model to a named preset view
+function setView(state, name) {
+  if (name === 'home' && state.homeAngles) { setViewAngles(state, state.homeAngles, true); return; }
+  const v = VIEWS[name];
+  if (!v) return;
+  setViewAngles(state, v, name === 'home');
+}
+
+// Advance an active tween; returns nothing, mutates state.obj
+function stepTween(state) {
+  if (!state.tween || !state.obj) return;
+  const t = state.tween;
+  const tz = (t.tz !== undefined) ? t.tz : 0;
+  state.obj.rotation.x += (t.tx - state.obj.rotation.x) * 0.18;
+  state.obj.rotation.y += (t.ty - state.obj.rotation.y) * 0.18;
+  state.obj.rotation.z += (tz - state.obj.rotation.z) * 0.18;
+  if (Math.abs(t.tx - state.obj.rotation.x) < 0.002 && Math.abs(t.ty - state.obj.rotation.y) < 0.002 && Math.abs(tz - state.obj.rotation.z) < 0.002) {
+    state.obj.rotation.x = t.tx; state.obj.rotation.y = t.ty; state.obj.rotation.z = tz;
+    if (t.resume) state.autoRotate = true;
+    state.tween = null;
+  }
+}
+
+// Keep the CSS ViewCube oriented to match the model
+function syncCube(state) {
+  if (!state.cube || !state.obj) return;
+  const rx = -state.obj.rotation.x * 180 / Math.PI;
+  const ry = state.obj.rotation.y * 180 / Math.PI;
+  const rz = -state.obj.rotation.z * 180 / Math.PI;
+  state.cube.style.transform = 'rotateZ(' + rz + 'deg) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+}
+
+// Live angle control: editable tilt/turn fields plus a per-model Set as Home
+function normDeg(r) {
+  let d = r * 180 / Math.PI;
+  d = ((d + 180) % 360 + 360) % 360 - 180;
+  return d;
+}
+function buildAngleControl(el, state) {
+  el.innerHTML = '';
+  el.className = 'angle-control';
+  function mkInput() { const i = document.createElement('input'); i.type = 'number'; i.step = '1'; i.className = 'angle-input'; return i; }
+  const tilt = mkInput(), turn = mkInput(), roll = mkInput();
+  const apply = () => {
+    const tx = (parseFloat(tilt.value) || 0) * Math.PI / 180;
+    const ty = (parseFloat(turn.value) || 0) * Math.PI / 180;
+    const tz = (parseFloat(roll.value) || 0) * Math.PI / 180;
+    setViewAngles(state, [tx, ty, tz], false);
+  };
+  [tilt, turn, roll].forEach(inp => {
+    inp.addEventListener('focus', () => { state.editingAngles = true; state.autoRotate = false; });
+    inp.addEventListener('blur', () => { state.editingAngles = false; });
+    inp.addEventListener('change', apply);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { apply(); inp.blur(); } });
+  });
+  const tL = document.createElement('span'); tL.className = 'angle-lbl'; tL.textContent = 'Tilt';
+  const uL = document.createElement('span'); uL.className = 'angle-lbl'; uL.textContent = 'Turn';
+  const rL = document.createElement('span'); rL.className = 'angle-lbl'; rL.textContent = 'Roll';
+  const setHome = document.createElement('button'); setHome.className = 'angle-sethome'; setHome.textContent = 'Set as Home';
+  setHome.addEventListener('click', ev => {
+    ev.stopPropagation();
+    if (!state.obj) return;
+    const angles = [state.obj.rotation.x, state.obj.rotation.y, state.obj.rotation.z];
+    state.homeAngles = angles;
+    if (state.source) state.source.homeAngles = angles;
+    setHome.textContent = 'Home saved';
+    setTimeout(() => { setHome.textContent = 'Set as Home'; }, 1200);
+  });
+  el.appendChild(tL); el.appendChild(tilt);
+  el.appendChild(uL); el.appendChild(turn);
+  el.appendChild(rL); el.appendChild(roll);
+  el.appendChild(setHome);
+  el.style.display = 'flex';
+  state.tiltInput = tilt; state.turnInput = turn; state.rollInput = roll;
+}
+function updateReadout(state) {
+  if (!state.obj || state.editingAngles) return;
+  if (state.tiltInput) state.tiltInput.value = Math.round(normDeg(state.obj.rotation.x));
+  if (state.turnInput) state.turnInput.value = Math.round(normDeg(state.obj.rotation.y));
+  if (state.rollInput) state.rollInput.value = Math.round(normDeg(state.obj.rotation.z));
+}
+
+// Build the clickable ViewCube DOM into a mount element, wired to a viewer state
+function buildViewCube(mountEl, state) {
+  mountEl.innerHTML = '';
+  const cube = document.createElement('div');
+  cube.className = 'viewcube';
+  const inner = document.createElement('div');
+  inner.className = 'viewcube-cube';
+
+  // Each face: outward normal, in-plane grid axes (Rcol = left-to-right, Drow = top-to-bottom in world signs), label
+  const faceCfg = [
+    { cls: 'vc-front',  normal: [0,0,1],  Rcol: [1,0,0],  Drow: [0,-1,0], label: 'Front'  },
+    { cls: 'vc-back',   normal: [0,0,-1], Rcol: [-1,0,0], Drow: [0,-1,0], label: 'Back'   },
+    { cls: 'vc-right',  normal: [1,0,0],  Rcol: [0,0,1],  Drow: [0,-1,0], label: 'Right'  },
+    { cls: 'vc-left',   normal: [-1,0,0], Rcol: [0,0,-1], Drow: [0,-1,0], label: 'Left'   },
+    { cls: 'vc-top',    normal: [0,1,0],  Rcol: [1,0,0],  Drow: [0,0,1],  label: 'Top'    },
+    { cls: 'vc-bottom', normal: [0,-1,0], Rcol: [1,0,0],  Drow: [0,0,-1], label: 'Bottom' }
+  ];
+
+  faceCfg.forEach(f => {
+    const faceEl = document.createElement('div');
+    faceEl.className = 'viewcube-face ' + f.cls;
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const ox = col - 1, oy = row - 1;
+        const s = [
+          f.normal[0] + ox * f.Rcol[0] + oy * f.Drow[0],
+          f.normal[1] + ox * f.Rcol[1] + oy * f.Drow[1],
+          f.normal[2] + ox * f.Rcol[2] + oy * f.Drow[2]
+        ];
+        const view = viewForSigns(s);
+        const cell = document.createElement('div');
+        const isCenter = (row === 1 && col === 1);
+        const isCorner = (s[0] !== 0 && s[1] !== 0 && s[2] !== 0);
+        cell.className = 'vc-cell' + (isCenter ? ' vc-center' : (isCorner ? ' vc-corner' : ' vc-edge'));
+        if (isCenter) cell.textContent = f.label;
+        cell.addEventListener('click', ev => { ev.stopPropagation(); setViewAngles(state, view, false); });
+        faceEl.appendChild(cell);
+      }
+    }
+    inner.appendChild(faceEl);
+  });
+  cube.appendChild(inner);
+
+  const home = document.createElement('button');
+  home.className = 'viewcube-home';
+  home.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home';
+  home.addEventListener('click', ev => { ev.stopPropagation(); setView(state, 'home'); });
+
+  mountEl.appendChild(cube);
+  mountEl.appendChild(home);
+  mountEl.style.display = 'flex';
+  state.cube = inner;
+}
+
+function createViewer(canvasId, wrapId) {
+  if (viewers[canvasId]) return viewers[canvasId];
+  const canvas = document.getElementById(canvasId);
+  const wrap = document.getElementById(wrapId);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(BG_COLOR, 1);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 2000);
+  camera.position.set(0, 0, 3);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+  const d1 = new THREE.DirectionalLight(0xfff8ee, 0.85); d1.position.set(1,2,3); scene.add(d1);
+  const d2 = new THREE.DirectionalLight(0x8899bb, 0.4); d2.position.set(-2,-1,-1); scene.add(d2);
+
+  const state = { renderer, scene, camera, obj: null, autoRotate: true, isDragging: false, prev:{x:0,y:0}, zoom: 3 };
+  viewers[canvasId] = state;
+
+  function resize() {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    if (w === 0 || h === 0) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  resize();
+  new ResizeObserver(resize).observe(wrap);
+
+  (function animate(){
+    requestAnimationFrame(animate);
+    stepTween(state);
+    if (state.autoRotate && state.obj && !state.isDragging) state.obj.rotation.z += 0.008;
+    syncCube(state);
+    updateReadout(state);
+    renderer.render(scene, camera);
+  })();
+
+  canvas.addEventListener('mousedown', e => { state.isDragging = true; state.autoRotate = false; state.prev = {x:e.clientX, y:e.clientY}; });
+  window.addEventListener('mouseup', () => state.isDragging = false);
+  canvas.addEventListener('mousemove', e => {
+    if (!state.isDragging || !state.obj) return;
+    state.obj.rotation.y += (e.clientX - state.prev.x) * 0.01;
+    state.obj.rotation.x += (e.clientY - state.prev.y) * 0.01;
+    state.obj.rotation.x = Math.max(-1.52, Math.min(1.52, state.obj.rotation.x));
+    state.prev = {x:e.clientX, y:e.clientY};
+  });
+  canvas.addEventListener('wheel', e => { e.preventDefault(); state.zoom = Math.max(0.6, Math.min(40, state.zoom + e.deltaY * 0.005)); camera.position.z = state.zoom; }, {passive:false});
+  canvas.addEventListener('touchstart', e => { state.isDragging = true; state.autoRotate = false; state.prev = {x:e.touches[0].clientX, y:e.touches[0].clientY}; }, {passive:true});
+  canvas.addEventListener('touchend', () => state.isDragging = false);
+  canvas.addEventListener('touchmove', e => {
+    if (!state.isDragging || !state.obj) return;
+    state.obj.rotation.y += (e.touches[0].clientX - state.prev.x) * 0.01;
+    state.obj.rotation.x += (e.touches[0].clientY - state.prev.y) * 0.01;
+    state.obj.rotation.x = Math.max(-1.52, Math.min(1.52, state.obj.rotation.x));
+    state.prev = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+  }, {passive:true});
+
+  return state;
+}
+
+function frameInto(state, obj3d) {
+  if (state.obj) state.scene.remove(state.obj);
+  const box = new THREE.Box3().setFromObject(obj3d);
+  const center = new THREE.Vector3(); box.getCenter(center);
+  const size = new THREE.Vector3(); box.getSize(size);
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  obj3d.position.sub(center);
+  const pivot = new THREE.Group();
+  pivot.add(obj3d);
+  pivot.scale.setScalar(2.0 / maxDim);
+  pivot.rotation.set(INIT_ROT_X, INIT_ROT_Y, 0);
+  state.scene.add(pivot);
+  state.obj = pivot;
+  state._source = pivot;
+  state.zoom = 3; state.camera.position.z = 3; state.autoRotate = true;
+}
+
+/* ---------- UPLOAD HANDLING ---------- */
+function setupUpload(inputId, canvasId, placeholderId, loadingId, fullscreenBtnId, hintId, viewcubeId, label) {
+  const input = document.getElementById(inputId);
+  createViewer(canvasId, canvasId.replace('canvas','wrap'));
+
+  input.addEventListener('change', async e => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    const objFile = files.find(f => /\.obj$/i.test(f.name));
+    const mtlFile = files.find(f => /\.mtl$/i.test(f.name));
+    const stlFile = files.find(f => /\.stl$/i.test(f.name));
+    const imageFiles = files.filter(f => /\.(png|jpe?g|bmp|gif)$/i.test(f.name));
+
+    document.getElementById(loadingId).style.display = 'flex';
+    const state = viewers[canvasId];
+
+    try {
+      let obj3d = null;
+      if (objFile) {
+        const objText = await objFile.text();
+        const materials = mtlFile ? parseMTL(await mtlFile.text()) : null;
+        const textureMap = imageFiles.length ? await loadTextures(imageFiles) : {};
+        obj3d = buildOBJObject(parseOBJ(objText), materials, textureMap);
+      } else if (stlFile) {
+        obj3d = buildSTLObject(parseSTL(await stlFile.arrayBuffer()));
+      } else {
+        document.getElementById(loadingId).style.display = 'none';
+        alert('Please include an .obj file (with its .mtl) or an .stl file.');
+        return;
+      }
+      document.getElementById(placeholderId).style.display = 'none';
+      document.getElementById(canvasId).style.display = 'block';
+      document.getElementById(fullscreenBtnId).style.display = 'flex';
+      document.getElementById(hintId).style.display = 'block';
+      document.getElementById(loadingId).style.display = 'none';
+      frameInto(state, obj3d);
+      buildViewCube(document.getElementById(viewcubeId), state);
+      const readoutEl = document.getElementById(canvasId.replace('canvas','readout'));
+      if (readoutEl) buildAngleControl(readoutEl, state);
+    } catch (err) {
+      document.getElementById(loadingId).style.display = 'none';
+      console.error(err);
+      alert('Could not load that model. Check the OBJ and MTL files are valid.');
+    }
+  });
+
+  document.getElementById(fullscreenBtnId).addEventListener('click', () => openModal(canvasId, label));
+}
+
+/* ---------- MODAL ---------- */
+let modalViewer = null;
+function ensureModalViewer() {
+  if (modalViewer) return modalViewer;
+  const wrap = document.getElementById('modal-canvas-wrap');
+  const canvas = document.getElementById('modal-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(BG_COLOR, 1);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 2000);
+  camera.position.z = 3;
+  scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+  const d1 = new THREE.DirectionalLight(0xfff8ee, 0.85); d1.position.set(1,2,3); scene.add(d1);
+  const d2 = new THREE.DirectionalLight(0x8899bb, 0.4); d2.position.set(-2,-1,-1); scene.add(d2);
+
+  modalViewer = { renderer, scene, camera, obj: null, autoRotate: true, isDragging: false, prev:{x:0,y:0}, zoom: 3, isRight: false };
+
+  function resize() {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    if (w === 0 || h === 0) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(wrap);
+  modalViewer._resize = resize;
+
+  (function animate(){
+    requestAnimationFrame(animate);
+    stepTween(modalViewer);
+    if (modalViewer.autoRotate && modalViewer.obj && !modalViewer.isDragging) modalViewer.obj.rotation.z += 0.008;
+    syncCube(modalViewer);
+    updateReadout(modalViewer);
+    renderer.render(scene, camera);
+  })();
+
+  canvas.addEventListener('mousedown', e => { modalViewer.isDragging = true; modalViewer.autoRotate = false; modalViewer.isRight = (e.button === 2); modalViewer.prev = {x:e.clientX, y:e.clientY}; });
+  window.addEventListener('mouseup', () => modalViewer.isDragging = false);
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  canvas.addEventListener('mousemove', e => {
+    if (!modalViewer.isDragging || !modalViewer.obj) return;
+    const dx = e.clientX - modalViewer.prev.x, dy = e.clientY - modalViewer.prev.y;
+    if (modalViewer.isRight) { modalViewer.obj.position.x += dx*0.003; modalViewer.obj.position.y -= dy*0.003; }
+    else { modalViewer.obj.rotation.y += dx*0.008; modalViewer.obj.rotation.x += dy*0.008; modalViewer.obj.rotation.x = Math.max(-1.52, Math.min(1.52, modalViewer.obj.rotation.x)); }
+    modalViewer.prev = {x:e.clientX, y:e.clientY};
+  });
+  canvas.addEventListener('wheel', e => { e.preventDefault(); modalViewer.zoom = Math.max(0.6, Math.min(40, modalViewer.zoom + e.deltaY*0.004)); modalViewer.camera.position.z = modalViewer.zoom; }, {passive:false});
+  return modalViewer;
+}
+
+function openModal(sourceCanvasId, label) {
+  const modal = document.getElementById('modal');
+  document.getElementById('modal-title').textContent = label;
+  modal.classList.add('open');
+  const mv = ensureModalViewer();
+  const src = viewers[sourceCanvasId];
+  if (src && src._source) {
+    if (mv.obj) mv.scene.remove(mv.obj);
+    const clone = src._source.clone();
+    const start = src.homeAngles || [INIT_ROT_X, INIT_ROT_Y, 0];
+    clone.rotation.set(start[0], start[1], start[2] || 0);
+    clone.position.set(0,0,0);
+    mv.scene.add(clone);
+    mv.obj = clone;
+    mv.tween = null;
+    mv.source = src;
+    mv.homeAngles = src.homeAngles;
+    mv.zoom = 3; mv.camera.position.z = 3; mv.autoRotate = true;
+    buildViewCube(document.getElementById('viewcube-modal'), mv);
+    const mReadout = document.getElementById('readout-modal');
+    if (mReadout) buildAngleControl(mReadout, mv);
+  }
+  setTimeout(() => mv._resize(), 50);
+}
+
+document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('open'); });
+document.getElementById('modal-reset').addEventListener('click', () => {
+  if (modalViewer && modalViewer.obj) {
+    modalViewer.tween = null;
+    if (modalViewer.homeAngles) {
+      modalViewer.obj.rotation.set(modalViewer.homeAngles[0], modalViewer.homeAngles[1], modalViewer.homeAngles[2] || 0);
+    } else {
+      modalViewer.obj.rotation.set(INIT_ROT_X, INIT_ROT_Y, 0);
+    }
+    modalViewer.obj.position.set(0,0,0);
+    modalViewer.zoom = 3; modalViewer.camera.position.z = 3; modalViewer.autoRotate = true;
+  }
+});
+
+setupUpload('upload-mixer','canvas-mixer','placeholder-mixer','loading-mixer','fullscreen-mixer','hint-mixer','viewcube-mixer','Motor and Gearbox Assembly');
+setupUpload('upload-fdm','canvas-fdm','placeholder-fdm','loading-fdm','fullscreen-fdm','hint-fdm','viewcube-fdm','FDM Compression Test Rig');
+setupUpload('upload-padlock','canvas-padlock','placeholder-padlock','loading-padlock','fullscreen-padlock','hint-padlock','viewcube-padlock','Black Hat Padlock Mechanism');
+
+/* ---------- PHOTO SLIDER ---------- */
+function setupPhotoSlider(prefix) {
+  const input = document.getElementById('photoupload-' + prefix);
+  const track = document.getElementById('phototrack-' + prefix);
+  const empty = document.getElementById('photoempty-' + prefix);
+  const dotsEl = document.getElementById('photodots-' + prefix);
+  const prevBtn = document.getElementById('photoprev-' + prefix);
+  const nextBtn = document.getElementById('photonext-' + prefix);
+  const strip = document.getElementById('photos-' + prefix);
+  const state = { slides: [], dots: [], index: 0, timer: null };
+
+  function show(i) {
+    if (!state.slides.length) return;
+    state.index = (i + state.slides.length) % state.slides.length;
+    state.slides.forEach((s, k) => s.classList.toggle('active', k === state.index));
+    state.dots.forEach((d, k) => d.classList.toggle('active', k === state.index));
+  }
+  function next() { show(state.index + 1); }
+  function prev() { show(state.index - 1); }
+  function startAuto() { stopAuto(); if (state.slides.length > 1) state.timer = setInterval(next, 4000); }
+  function stopAuto() { if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+
+  prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+  nextBtn.addEventListener('click', () => { next(); startAuto(); });
+  strip.addEventListener('mouseenter', stopAuto);
+  strip.addEventListener('mouseleave', startAuto);
+
+  input.addEventListener('change', e => {
+    const files = Array.from(e.target.files).filter(f => /^image\//.test(f.type));
+    files.forEach(f => {
+      const url = URL.createObjectURL(f);
+      const slide = document.createElement('div');
+      slide.className = 'photo-slide';
+      const img = document.createElement('img');
+      img.src = url; img.alt = prefix + ' project photo';
+      slide.appendChild(img);
+      track.appendChild(slide);
+      state.slides.push(slide);
+      const dot = document.createElement('div');
+      dot.className = 'photo-dot';
+      const idx = state.dots.length;
+      dot.addEventListener('click', () => { show(idx); startAuto(); });
+      dotsEl.appendChild(dot);
+      state.dots.push(dot);
+    });
+    if (state.slides.length) {
+      empty.style.display = 'none';
+      const multi = state.slides.length > 1;
+      prevBtn.style.display = multi ? 'flex' : 'none';
+      nextBtn.style.display = multi ? 'flex' : 'none';
+      dotsEl.style.display = multi ? 'flex' : 'none';
+      show(state.index);
+      startAuto();
+    }
+  });
+}
+
+setupPhotoSlider('mixer');
+setupPhotoSlider('fdm');
+setupPhotoSlider('padlock');
+</script>
+</body>
+</html>
