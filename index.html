@@ -246,159 +246,8 @@ footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
 <section id="projects">
   <p class="section-label">Work</p>
   <h2>Engineering Projects</h2>
-  <div class="projects-grid">
-
-    <div class="project-card">
-      <div class="stl-viewer-wrap" id="wrap-mixer">
-        <canvas class="stl-canvas" id="canvas-mixer"></canvas>
-        <div class="stl-placeholder" id="placeholder-mixer">
-          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-          <p>Motor and Gearbox Assembly</p>
-          <span>Upload OBJ plus MTL to enable 3D viewer</span>
-        </div>
-        <div class="stl-loading" id="loading-mixer">Loading model...</div>
-        <div class="viewcube-mount" id="viewcube-mixer"></div>
-        <label class="stl-upload-btn" for="upload-mixer">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload OBJ + MTL
-        </label>
-        <input class="stl-upload-input" type="file" id="upload-mixer" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
-        <button class="stl-overlay-btn" id="fullscreen-mixer" style="display:none">
-          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-          Fullscreen
-        </button>
-        <span class="stl-hint" id="hint-mixer" style="display:none">Drag to rotate, scroll to zoom</span>
-        <div class="angle-readout" id="readout-mixer">Tilt 0&deg; Turn 0&deg;</div>
-      </div>
-      <div class="photo-strip" id="photos-mixer">
-        <div class="photo-track" id="phototrack-mixer"></div>
-        <div class="photo-empty" id="photoempty-mixer">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          <p>Add project photos</p>
-        </div>
-        <button class="photo-arrow photo-prev" id="photoprev-mixer" aria-label="Previous">&#8249;</button>
-        <button class="photo-arrow photo-next" id="photonext-mixer" aria-label="Next">&#8250;</button>
-        <div class="photo-dots" id="photodots-mixer"></div>
-        <label class="photo-upload-btn" for="photoupload-mixer"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
-        <input type="file" id="photoupload-mixer" accept="image/*" multiple class="photo-upload-input">
-      </div>
-      <div class="project-card-body">
-        <p class="project-type">University Group Project, 2025</p>
-        <h3>Towable Electric Concrete Mixer</h3>
-        <p>Designed the mechanical power transmission drivetrain for a towable electric concrete mixer. Responsible for shaft sizing, bearing selection, FEA validation, and full drivetrain specification including the motor weather cover.</p>
-        <ul class="project-highlights">
-          <li>Shaft sized to 42mm using Shigley fatigue analysis with a safety factor of 1.75</li>
-          <li>FEA confirmed Von Mises stress of 93.8 MPa, well below the 390 MPa yield limit</li>
-          <li>Specified ABB IE3 motor, Renold JPM worm gearbox, and Tsubaki RS35 roller chain</li>
-          <li>Deep groove ball bearings with a calculated life of 11,451 hours at 320 RPM</li>
-          <li>NZTA trailer compliance achieved under 750 kg unbraked weight limit</li>
-        </ul>
-        <div class="project-tools">
-          <span class="tool-tag">SolidWorks</span><span class="tool-tag">FEA</span><span class="tool-tag">Shigley</span><span class="tool-tag">Drivetrain Design</span><span class="tool-tag">NTN Bearings</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="stl-viewer-wrap" id="wrap-fdm">
-        <canvas class="stl-canvas" id="canvas-fdm"></canvas>
-        <div class="stl-placeholder" id="placeholder-fdm">
-          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-          <p>FDM Test Rig</p>
-          <span>Upload OBJ plus MTL to enable 3D viewer</span>
-        </div>
-        <div class="stl-loading" id="loading-fdm">Loading model...</div>
-        <div class="viewcube-mount" id="viewcube-fdm"></div>
-        <label class="stl-upload-btn" for="upload-fdm">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload OBJ + MTL
-        </label>
-        <input class="stl-upload-input" type="file" id="upload-fdm" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
-        <button class="stl-overlay-btn" id="fullscreen-fdm" style="display:none">
-          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-          Fullscreen
-        </button>
-        <span class="stl-hint" id="hint-fdm" style="display:none">Drag to rotate, scroll to zoom</span>
-        <div class="angle-readout" id="readout-fdm">Tilt 0&deg; Turn 0&deg;</div>
-      </div>
-      <div class="photo-strip" id="photos-fdm">
-        <div class="photo-track" id="phototrack-fdm"></div>
-        <div class="photo-empty" id="photoempty-fdm">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          <p>Add project photos</p>
-        </div>
-        <button class="photo-arrow photo-prev" id="photoprev-fdm" aria-label="Previous">&#8249;</button>
-        <button class="photo-arrow photo-next" id="photonext-fdm" aria-label="Next">&#8250;</button>
-        <div class="photo-dots" id="photodots-fdm"></div>
-        <label class="photo-upload-btn" for="photoupload-fdm"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
-        <input type="file" id="photoupload-fdm" accept="image/*" multiple class="photo-upload-input">
-      </div>
-      <div class="project-card-body">
-        <p class="project-type">Final Year Research, 2025</p>
-        <h3>Hysteresis and Plastic Failure of FDM Infill Structures</h3>
-        <p>Designed and built a custom compression test rig to characterise viscoelastic spring-back behaviour and plastic failure of FDM-printed specimens across PLA, TPU, and ABS, with intended application to 3D-printed orthotics.</p>
-        <ul class="project-highlights">
-          <li>15 specimens per configuration tested per ASTM D695</li>
-          <li>Printed on Bambu Lab X1C, outputs digitised using PlotDigitizer</li>
-          <li>Automated data processing in MATLAB to extract stress-strain correlations</li>
-          <li>Established relationships between infill parameters, spring-back, and hysteresis</li>
-        </ul>
-        <div class="project-tools">
-          <span class="tool-tag">MATLAB</span><span class="tool-tag">FDM Printing</span><span class="tool-tag">ASTM D695</span><span class="tool-tag">Test Rig Design</span><span class="tool-tag">Data Analysis</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="stl-viewer-wrap" id="wrap-padlock">
-        <canvas class="stl-canvas" id="canvas-padlock"></canvas>
-        <div class="stl-placeholder" id="placeholder-padlock">
-          <div class="stl-placeholder-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-          <p>Padlock Mechanism</p>
-          <span>Upload OBJ plus MTL to enable 3D viewer</span>
-        </div>
-        <div class="stl-loading" id="loading-padlock">Loading model...</div>
-        <div class="viewcube-mount" id="viewcube-padlock"></div>
-        <label class="stl-upload-btn" for="upload-padlock">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload OBJ + MTL
-        </label>
-        <input class="stl-upload-input" type="file" id="upload-padlock" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
-        <button class="stl-overlay-btn" id="fullscreen-padlock" style="display:none">
-          <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-          Fullscreen
-        </button>
-        <span class="stl-hint" id="hint-padlock" style="display:none">Drag to rotate, scroll to zoom</span>
-        <div class="angle-readout" id="readout-padlock">Tilt 0&deg; Turn 0&deg;</div>
-      </div>
-      <div class="photo-strip" id="photos-padlock">
-        <div class="photo-track" id="phototrack-padlock"></div>
-        <div class="photo-empty" id="photoempty-padlock">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-          <p>Add project photos</p>
-        </div>
-        <button class="photo-arrow photo-prev" id="photoprev-padlock" aria-label="Previous">&#8249;</button>
-        <button class="photo-arrow photo-next" id="photonext-padlock" aria-label="Next">&#8250;</button>
-        <div class="photo-dots" id="photodots-padlock"></div>
-        <label class="photo-upload-btn" for="photoupload-padlock"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Add Photos</label>
-        <input type="file" id="photoupload-padlock" accept="image/*" multiple class="photo-upload-input">
-      </div>
-      <div class="project-card-body">
-        <p class="project-type">Contract Deliverable, 2024</p>
-        <h3>Disassemblable Padlock for Black Hat Conference</h3>
-        <p>Designed and 3D-printed a fully functional, multi-part disassemblable padlock mechanism for the Lock Picking Village at Black Hat, a world-first activity of its type at a cybersecurity conference.</p>
-        <ul class="project-highlights">
-          <li>Multi-part PLA assembly requiring sub-millimetre tolerancing across all interfaces</li>
-          <li>Slicer parameters iterated per part to achieve consistent fit and repeatable action</li>
-          <li>Survived hundreds of participants handling the mechanism over multiple days</li>
-        </ul>
-        <div class="project-tools">
-          <span class="tool-tag">Fusion 360</span><span class="tool-tag">FDM Printing</span><span class="tool-tag">Tolerancing</span><span class="tool-tag">Iteration</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
+  <!-- Cards are injected here by renderProjects() in the script below -->
+  <div class="projects-grid" id="projects-grid"></div>
 </section>
 
 <hr class="full-divider">
@@ -1046,12 +895,130 @@ document.getElementById('modal-reset').addEventListener('click', () => {
   }
 });
 
-setupUpload('upload-mixer','canvas-mixer','placeholder-mixer','loading-mixer','fullscreen-mixer','hint-mixer','viewcube-mixer','Motor and Gearbox Assembly');
-setupUpload('upload-fdm','canvas-fdm','placeholder-fdm','loading-fdm','fullscreen-fdm','hint-fdm','viewcube-fdm','FDM Compression Test Rig');
-setupUpload('upload-padlock','canvas-padlock','placeholder-padlock','loading-padlock','fullscreen-padlock','hint-padlock','viewcube-padlock','Black Hat Padlock Mechanism');
+/* ==========================================================
+   PROJECTS DATA — edit only this block to add or change projects.
+   
+   Each project needs:
+     id       — short slug, no spaces (used for element IDs)
+     label    — display name for the 3D viewer fullscreen title
+     type     — shown above the project title (e.g. "University Project, 2025")
+     title    — project heading
+     desc     — one paragraph description
+     bullets  — array of highlight strings
+     tools    — array of tool tag strings
+     model    — path to .obj file relative to index.html, e.g. "models/mixer.obj"
+                leave null if no model yet
+     home     — [tiltDeg, turnDeg, rollDeg] starting view angles
+                use the angle control panel on the live site to find these,
+                then paste the three numbers here
+     photos   — array of image paths, e.g. ["images/mixer-1.jpg","images/mixer-2.jpg"]
+                leave as [] if no photos yet
+   ========================================================== */
+const PROJECTS = [
+  {
+    id: 'mixer',
+    label: 'Motor and Gearbox Assembly',
+    type: 'University Group Project, 2025',
+    title: 'Towable Electric Concrete Mixer',
+    desc: 'Designed the mechanical power transmission drivetrain for a towable electric concrete mixer. Responsible for shaft sizing, bearing selection, FEA validation, and full drivetrain specification including the motor weather cover.',
+    bullets: [
+      'Shaft sized to 42mm using Shigley fatigue analysis with a safety factor of 1.75',
+      'FEA confirmed Von Mises stress of 93.8 MPa, well below the 390 MPa yield limit',
+      'Specified ABB IE3 motor, Renold JPM worm gearbox, and Tsubaki RS35 roller chain',
+      'Deep groove ball bearings with a calculated life of 11,451 hours at 320 RPM',
+      'NZTA trailer compliance achieved under 750 kg unbraked weight limit'
+    ],
+    tools: ['SolidWorks', 'FEA', 'Shigley', 'Drivetrain Design', 'NTN Bearings'],
+    model: 'models/mixer.obj',   // place mixer.obj and mixer.mtl in the models/ folder
+    home: [30, 45, 0],           // update once you have found the ideal view on the live site
+    photos: []                   // e.g. ['images/mixer-1.jpg', 'images/mixer-2.jpg']
+  },
+  {
+    id: 'fdm',
+    label: 'FDM Compression Test Rig',
+    type: 'Final Year Research, 2025',
+    title: 'Hysteresis and Plastic Failure of FDM Infill Structures',
+    desc: 'Designed and built a custom compression test rig to characterise viscoelastic spring-back behaviour and plastic failure of FDM-printed specimens across PLA, TPU, and ABS, with intended application to 3D-printed orthotics.',
+    bullets: [
+      '15 specimens per configuration tested per ASTM D695',
+      'Printed on Bambu Lab X1C, outputs digitised using PlotDigitizer',
+      'Automated data processing in MATLAB to extract stress-strain correlations',
+      'Established relationships between infill parameters, spring-back, and hysteresis'
+    ],
+    tools: ['MATLAB', 'FDM Printing', 'ASTM D695', 'Test Rig Design', 'Data Analysis'],
+    model: 'models/fdm.obj',
+    home: [30, 45, 0],
+    photos: []
+  },
+  {
+    id: 'padlock',
+    label: 'Black Hat Padlock Mechanism',
+    type: 'Contract Deliverable, 2024',
+    title: 'Disassemblable Padlock for Black Hat Conference',
+    desc: 'Designed and 3D-printed a fully functional, multi-part disassemblable padlock mechanism for the Lock Picking Village at Black Hat, a world-first activity of its type at a cybersecurity conference.',
+    bullets: [
+      'Multi-part PLA assembly requiring sub-millimetre tolerancing across all interfaces',
+      'Slicer parameters iterated per part to achieve consistent fit and repeatable action',
+      'Survived hundreds of participants handling the mechanism over multiple days'
+    ],
+    tools: ['Fusion 360', 'FDM Printing', 'Tolerancing', 'Iteration'],
+    model: 'models/padlock.obj',
+    home: [30, 45, 0],
+    photos: []
+  }
+];
+
+/* ---------- CARD RENDERER ---------- */
+// Builds the full HTML for one project card and appends it to the grid.
+// Called once per project in PROJECTS; no need to touch this function
+// when adding or editing projects.
+function renderCard(p) {
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  const cubeIcon = `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+  const uploadIcon = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`;
+  const fsIcon = `<svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+  const photoIcon = `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`;
+  card.innerHTML = `
+    <div class="stl-viewer-wrap" id="wrap-${p.id}">
+      <canvas class="stl-canvas" id="canvas-${p.id}"></canvas>
+      <div class="stl-placeholder" id="placeholder-${p.id}">
+        <div class="stl-placeholder-icon">${cubeIcon}</div>
+        <p>${p.title}</p>
+        <span>Upload OBJ + MTL to enable 3D viewer</span>
+      </div>
+      <div class="stl-loading" id="loading-${p.id}">Loading model...</div>
+      <div class="viewcube-mount" id="viewcube-${p.id}"></div>
+      <label class="stl-upload-btn" for="upload-${p.id}">${uploadIcon} Upload OBJ + MTL</label>
+      <input class="stl-upload-input" type="file" id="upload-${p.id}" accept=".obj,.mtl,.stl,.png,.jpg,.jpeg,.bmp" multiple>
+      <button class="stl-overlay-btn" id="fullscreen-${p.id}" style="display:none">${fsIcon} Fullscreen</button>
+      <span class="stl-hint" id="hint-${p.id}" style="display:none">Drag to rotate, scroll to zoom</span>
+      <div class="angle-readout" id="readout-${p.id}">Tilt 0&deg; Turn 0&deg;</div>
+    </div>
+    <div class="photo-strip" id="photos-${p.id}">
+      <div class="photo-track" id="phototrack-${p.id}"></div>
+      <div class="photo-empty" id="photoempty-${p.id}">${photoIcon}<p>Add project photos</p></div>
+      <button class="photo-arrow photo-prev" id="photoprev-${p.id}" aria-label="Previous">&#8249;</button>
+      <button class="photo-arrow photo-next" id="photonext-${p.id}" aria-label="Next">&#8250;</button>
+      <div class="photo-dots" id="photodots-${p.id}"></div>
+      <label class="photo-upload-btn" for="photoupload-${p.id}">${uploadIcon} Add Photos</label>
+      <input type="file" id="photoupload-${p.id}" accept="image/*" multiple class="photo-upload-input">
+    </div>
+    <div class="project-card-body">
+      <p class="project-type">${p.type}</p>
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      <ul class="project-highlights">${p.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      <div class="project-tools">${p.tools.map(t => `<span class="tool-tag">${t}</span>`).join('')}</div>
+    </div>`;
+  document.getElementById('projects-grid').appendChild(card);
+}
 
 /* ---------- PHOTO SLIDER ---------- */
-function setupPhotoSlider(prefix) {
+// Initialises the slider for one project.
+// Also accepts an optional array of URL strings to pre-load photos from the
+// images/ folder (used by autoLoadPhotos below on GitHub Pages).
+function setupPhotoSlider(prefix, preloadUrls) {
   const input = document.getElementById('photoupload-' + prefix);
   const track = document.getElementById('phototrack-' + prefix);
   const empty = document.getElementById('photoempty-' + prefix);
@@ -1060,6 +1027,22 @@ function setupPhotoSlider(prefix) {
   const nextBtn = document.getElementById('photonext-' + prefix);
   const strip = document.getElementById('photos-' + prefix);
   const state = { slides: [], dots: [], index: 0, timer: null };
+
+  function addPhotoFromUrl(url, alt) {
+    const slide = document.createElement('div');
+    slide.className = 'photo-slide';
+    const img = document.createElement('img');
+    img.src = url; img.alt = alt || prefix + ' project photo';
+    slide.appendChild(img);
+    track.appendChild(slide);
+    state.slides.push(slide);
+    const dot = document.createElement('div');
+    dot.className = 'photo-dot';
+    const idx = state.dots.length;
+    dot.addEventListener('click', () => { show(idx); startAuto(); });
+    dotsEl.appendChild(dot);
+    state.dots.push(dot);
+  }
 
   function show(i) {
     if (!state.slides.length) return;
@@ -1077,24 +1060,22 @@ function setupPhotoSlider(prefix) {
   strip.addEventListener('mouseenter', stopAuto);
   strip.addEventListener('mouseleave', startAuto);
 
+  // Pre-load photos from paths defined in PROJECTS.photos (works on GitHub Pages)
+  if (preloadUrls && preloadUrls.length) {
+    preloadUrls.forEach(url => addPhotoFromUrl(url));
+    empty.style.display = 'none';
+    const multi = preloadUrls.length > 1;
+    prevBtn.style.display = multi ? 'flex' : 'none';
+    nextBtn.style.display = multi ? 'flex' : 'none';
+    dotsEl.style.display = multi ? 'flex' : 'none';
+    show(0);
+    startAuto();
+  }
+
+  // Manual upload — always available as a fallback
   input.addEventListener('change', e => {
     const files = Array.from(e.target.files).filter(f => /^image\//.test(f.type));
-    files.forEach(f => {
-      const url = URL.createObjectURL(f);
-      const slide = document.createElement('div');
-      slide.className = 'photo-slide';
-      const img = document.createElement('img');
-      img.src = url; img.alt = prefix + ' project photo';
-      slide.appendChild(img);
-      track.appendChild(slide);
-      state.slides.push(slide);
-      const dot = document.createElement('div');
-      dot.className = 'photo-dot';
-      const idx = state.dots.length;
-      dot.addEventListener('click', () => { show(idx); startAuto(); });
-      dotsEl.appendChild(dot);
-      state.dots.push(dot);
-    });
+    files.forEach(f => addPhotoFromUrl(URL.createObjectURL(f), f.name));
     if (state.slides.length) {
       empty.style.display = 'none';
       const multi = state.slides.length > 1;
@@ -1107,9 +1088,72 @@ function setupPhotoSlider(prefix) {
   });
 }
 
-setupPhotoSlider('mixer');
-setupPhotoSlider('fdm');
-setupPhotoSlider('padlock');
+/* ---------- AUTO-LOAD MODEL FROM FOLDER ---------- */
+// Fetches a .obj (and matching .mtl) from the models/ folder by URL.
+// Only works when served over HTTP/HTTPS (i.e. on GitHub Pages).
+// Falls back gracefully if the file is not found.
+async function autoLoadModel(p) {
+  if (!p.model) return;
+  const canvasId = 'canvas-' + p.id;
+  const state = viewers[canvasId];
+  if (!state) return;
+
+  document.getElementById('loading-' + p.id).style.display = 'flex';
+
+  try {
+    const objRes = await fetch(p.model);
+    if (!objRes.ok) throw new Error('model not found');
+    const objText = await objRes.text();
+
+    // Try to fetch the matching .mtl (same name, .mtl extension)
+    let materials = null;
+    const mtlPath = p.model.replace(/\.obj$/i, '.mtl');
+    try {
+      const mtlRes = await fetch(mtlPath);
+      if (mtlRes.ok) materials = parseMTL(await mtlRes.text());
+    } catch (_) { /* no MTL is fine */ }
+
+    const obj3d = buildOBJObject(parseOBJ(objText), materials, {});
+    document.getElementById('placeholder-' + p.id).style.display = 'none';
+    document.getElementById(canvasId).style.display = 'block';
+    document.getElementById('fullscreen-' + p.id).style.display = 'flex';
+    document.getElementById('hint-' + p.id).style.display = 'block';
+    document.getElementById('loading-' + p.id).style.display = 'none';
+    frameInto(state, obj3d);
+
+    // Apply the home angle defined in PROJECTS
+    const toRad = d => d * Math.PI / 180;
+    const ha = [toRad(p.home[0]), toRad(p.home[1]), toRad(p.home[2] || 0)];
+    state.obj.rotation.set(ha[0], ha[1], ha[2]);
+    state.homeAngles = ha;
+
+    buildViewCube(document.getElementById('viewcube-' + p.id), state);
+    const readoutEl = document.getElementById('readout-' + p.id);
+    if (readoutEl) buildAngleControl(readoutEl, state);
+  } catch (_) {
+    // File not in repo yet — leave the upload placeholder visible
+    document.getElementById('loading-' + p.id).style.display = 'none';
+  }
+}
+
+/* ---------- RENDER LOOP ---------- */
+// Render all cards, wire up upload handlers, sliders, and auto-loaders.
+// This is the only place you need to change to add a project: add it to PROJECTS above.
+PROJECTS.forEach(p => {
+  renderCard(p);
+  setupUpload(
+    'upload-' + p.id,
+    'canvas-' + p.id,
+    'placeholder-' + p.id,
+    'loading-' + p.id,
+    'fullscreen-' + p.id,
+    'hint-' + p.id,
+    'viewcube-' + p.id,
+    p.label
+  );
+  setupPhotoSlider(p.id, p.photos);
+  autoLoadModel(p);
+});
 </script>
 </body>
 </html>
