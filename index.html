@@ -105,6 +105,7 @@ h2 { font-family: var(--serif); font-size: clamp(2rem, 3vw, 2.75rem); font-weigh
 .media-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
 .media-slide.active { opacity: 1; pointer-events: auto; }
 .media-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media-slide video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
 /* The 3D viewer slide hosts the canvas — no image, just the canvas fills it */
 .media-slide.is-viewer { cursor: grab; background: var(--bg3); }
 .media-slide.is-viewer:active { cursor: grabbing; }
@@ -196,7 +197,7 @@ footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
     <div>
       <p class="hero-eyebrow fade-up delay-1">Graduate Mechanical Engineer</p>
       <h1 class="fade-up delay-2">Design.<br><em>Analyse.</em><br>Build.</h1>
-      <p class="hero-desc fade-up delay-3">BEng Mechanical Engineering (AUT, 2025). Experienced in shaft design, FEA, drivetrain specification, and rapid prototyping. Currently based in London and available immediately on a UK Youth Mobility Visa.</p>
+      <p class="hero-desc fade-up delay-3">BEng Mechanical Engineering (AUT, 2025). Experienced in shaft design, FEA, drivetrain specification, and rapid prototyping.</p>
       <div class="hero-cta fade-up delay-4">
         <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
@@ -294,7 +295,7 @@ footer p { font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
 <div class="contact-section" id="contact">
   <div>
     <h2 class="contact-heading">Let's talk<br><em>engineering.</em></h2>
-    <p class="contact-sub">Available immediately in London. Open to graduate mechanical engineering roles across design, analysis, and product development.</p>
+    <p class="contact-sub">Open to graduate mechanical engineering roles across design, analysis, and product development.</p>
   </div>
   <div class="contact-details">
     <div class="contact-row" id="email-row">
@@ -784,7 +785,7 @@ document.getElementById('modal-reset').addEventListener('click', () => {
 
 /* ==========================================================
    PROJECTS DATA — edit only this block to add or change projects.
-   
+
    Each project needs:
      id       — short slug, no spaces (used for element IDs)
      label    — display name for the 3D viewer fullscreen title
@@ -794,12 +795,19 @@ document.getElementById('modal-reset').addEventListener('click', () => {
      bullets  — array of highlight strings
      tools    — array of tool tag strings
      model    — path to .obj file relative to index.html, e.g. "models/mixer.obj"
-                leave null if no model yet
+                leave as [] or null if there is no 3D model
      home     — [tiltDeg, turnDeg, rollDeg] starting view angles
                 use the angle control panel on the live site to find these,
                 then paste the three numbers here
-     photos   — array of image paths, e.g. ["images/mixer-1.jpg","images/mixer-2.jpg"]
-                leave as [] if no photos yet
+     photos   — array of media paths. Images AND videos are both supported,
+                detected automatically by file extension:
+                  images: .jpg .jpeg .png .webp .gif
+                  videos: .mp4 .webm .mov .ogg
+                e.g. ["images/mixer.png", "videos/mixer-demo.mp4"]
+                leave as [] if no photos or videos yet
+
+   Every media holder is a slider. A card can show any mix of a 3D model,
+   photos, and videos — or just one of them.
    ========================================================== */
 const PROJECTS = [
   {
@@ -833,7 +841,7 @@ const PROJECTS = [
       'Established relationships between infill parameters, spring-back, and hysteresis'
     ],
     tools: ['MATLAB', 'FDM Printing', 'ASTM D695', 'Test Rig Design', 'Data Analysis'],
-    model: 'models/fdm.obj',
+    model: [],
     home: [30, 45, 0],
     photos: []
   },
@@ -877,15 +885,25 @@ function renderCard(p) {
   document.getElementById('projects-grid').appendChild(card);
 }
 
+/* ---------- MEDIA TYPE DETECTION ---------- */
+// Returns true if a path points to a video file, based on its extension.
+function isVideoPath(url) {
+  return /\.(mp4|webm|mov|ogg|ogv|m4v)(\?.*)?$/i.test(url);
+}
+
 /* ---------- UNIFIED MEDIA SLIDER ---------- */
-// Builds a slider holding a 3D viewer slide (first, if model exists) and photo slides.
-// viewerConfig = { id, canvasId, label } or null; photos = array of URL strings.
-function setupMediaSlider(sliderEl, viewerConfig, photos) {
+// Builds a slider holding an optional 3D viewer slide (first, if a model is set)
+// followed by media slides. Each media entry is auto-detected as an image or a
+// video by its file extension.
+// viewerConfig = { id, canvasId, label } or null; mediaList = array of URL strings.
+function setupMediaSlider(sliderEl, viewerConfig, mediaList) {
   const track = sliderEl.querySelector('.media-track');
   const prevBtn = sliderEl.querySelector('.media-prev');
   const nextBtn = sliderEl.querySelector('.media-next');
   const dotsEl = sliderEl.querySelector('.media-dots');
   const loadingEl = sliderEl.querySelector('.stl-loading');
+
+  mediaList = mediaList || [];
 
   const slides = [];
   const dots = [];
@@ -894,6 +912,11 @@ function setupMediaSlider(sliderEl, viewerConfig, photos) {
 
   function show(i) {
     if (!slides.length) return;
+    // Pause any video on the slide we are leaving
+    const leaving = slides[current];
+    if (leaving && leaving._media && typeof leaving._media.pause === 'function') {
+      leaving._media.pause();
+    }
     current = (i + slides.length) % slides.length;
     slides.forEach((s, k) => s.classList.toggle('active', k === current));
     dots.forEach((d, k) => d.classList.toggle('active', k === current));
@@ -940,14 +963,30 @@ function setupMediaSlider(sliderEl, viewerConfig, photos) {
     setupViewer(viewerConfig.canvasId, viewerConfig.canvasId);
   }
 
-  // Photo slides
-  photos.forEach(url => {
+  // Media slides — each entry is auto-detected as an image or a video
+  // by its file extension. Videos get inline playback controls.
+  mediaList.forEach(url => {
     const slide = document.createElement('div');
     slide.className = 'media-slide';
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = 'Project photo';
-    slide.appendChild(img);
+    if (isVideoPath(url)) {
+      const video = document.createElement('video');
+      video.src = url;
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      // While a video is playing, stop the slider auto-advancing past it;
+      // resume auto-advance when it pauses or ends.
+      video.addEventListener('play', stopAuto);
+      video.addEventListener('pause', startAuto);
+      video.addEventListener('ended', startAuto);
+      slide._media = video;
+      slide.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Project media';
+      slide.appendChild(img);
+    }
     track.appendChild(slide);
     slides.push(slide);
     addDot(false);
@@ -1030,7 +1069,7 @@ function setupViewer(canvasId, canvasId2) {
 
 /* ---------- AUTO-LOAD MODEL ---------- */
 async function autoLoadModel(p, sliderState) {
-  if (!p.model || !sliderState) return;
+  if (typeof p.model !== 'string' || !p.model.trim() || !sliderState) return;
   const canvasId = 'canvas-' + p.id;
   const state = viewers[canvasId];
   if (!state) return;
@@ -1058,19 +1097,25 @@ async function autoLoadModel(p, sliderState) {
 }
 
 /* ---------- RENDER LOOP ---------- */
+// Treat model as "present" only when it is a non-empty string path.
+// This safely handles model being set to [], null, or '' meaning no model.
+function hasModel(p) {
+  return typeof p.model === 'string' && p.model.trim().length > 0;
+}
 PROJECTS.forEach(p => {
   renderCard(p);
   const sliderEl = document.getElementById('slider-' + p.id);
-  const viewerConfig = p.model ? { id: p.id, canvasId: 'canvas-' + p.id, label: p.label } : null;
+  const viewerConfig = hasModel(p) ? { id: p.id, canvasId: 'canvas-' + p.id, label: p.label } : null;
   const sliderState = setupMediaSlider(sliderEl, viewerConfig, p.photos);
-  if (p.model) autoLoadModel(p, sliderState);
+  if (hasModel(p)) autoLoadModel(p, sliderState);
 });
 
-/* ---------- AUTOMOTIVE PHOTO SLIDERS ---------- */
-// Add photo paths for each automotive project here.
+/* ---------- AUTOMOTIVE MEDIA SLIDERS ---------- */
+// Add photo and/or video paths for each automotive project here.
+// Images and videos are both supported and detected automatically.
 const AUTO_PROJECTS = [
-  { id: 'bmw',  photos: [] },  // e.g. ['images/bmw-1.jpg', 'images/bmw-2.jpg']
-  { id: 'audi', photos: [] }   // e.g. ['images/audi-1.jpg']
+  { id: 'bmw',  photos: [] },  // e.g. ['images/bmw-1.jpg', 'videos/bmw-walkaround.mp4']
+  { id: 'audi', photos: [] }   // e.g. ['images/audi-1.jpg', 'videos/audi-startup.mp4']
 ];
 AUTO_PROJECTS.forEach(ap => {
   const sliderEl = document.getElementById('auto-slider-' + ap.id);
