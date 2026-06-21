@@ -824,8 +824,8 @@ const PROJECTS = [
       'NZTA trailer compliance achieved under 750 kg unbraked weight limit'
     ],
     tools: ['SolidWorks', 'FEA', 'Shigley', 'Drivetrain Design', 'NTN Bearings'],
-    model: ['models/mixer.obj','models/RainCover.obj'],   // place mixer.obj and mixer.mtl in the models/ folder
-    home: [30, 45, 0],           // update once you have found the ideal view on the live site
+    model: ['models/mixer.obj','models/RainCover.obj'],   // one path for a single model, or a list of paths for multiple models (each .obj needs its matching .mtl in models/)
+    home: [-65, 0, -32],           // update once you have found the ideal view on the live site
     photos: ['images/mixer.png']                   // e.g. ['images/mixer-1.jpg', 'images/mixer-2.jpg']
   },
   {
@@ -896,7 +896,7 @@ function isVideoPath(url) {
 // followed by media slides. Each media entry is auto-detected as an image or a
 // video by its file extension.
 // viewerConfig = { id, canvasId, label } or null; mediaList = array of URL strings.
-function setupMediaSlider(sliderEl, viewerConfig, mediaList) {
+function setupMediaSlider(sliderEl, viewerConfigs, mediaList) {
   const track = sliderEl.querySelector('.media-track');
   const prevBtn = sliderEl.querySelector('.media-prev');
   const nextBtn = sliderEl.querySelector('.media-next');
@@ -935,24 +935,24 @@ function setupMediaSlider(sliderEl, viewerConfig, mediaList) {
     dots.push(dot);
   }
 
-  // 3D viewer slide — always first if model is set
-  if (viewerConfig) {
+  // 3D viewer slides — one per model, always before any photos/videos
+  (viewerConfigs || []).forEach(vc => {
     const slide = document.createElement('div');
     slide.className = 'media-slide is-viewer';
     const canvas = document.createElement('canvas');
-    canvas.id = viewerConfig.canvasId;
+    canvas.id = vc.canvasId;
     const vcMount = document.createElement('div');
     vcMount.className = 'viewcube-mount';
-    vcMount.id = 'viewcube-' + viewerConfig.id;
+    vcMount.id = vc.viewcubeId;
     const hint = document.createElement('span');
     hint.className = 'stl-hint';
     hint.textContent = 'Drag to rotate · Scroll to zoom';
     const fsBtn = document.createElement('button');
     fsBtn.className = 'stl-overlay-btn';
-    fsBtn.id = 'fullscreen-' + viewerConfig.id;
+    fsBtn.id = vc.fullscreenId;
     fsBtn.style.display = 'none';
     fsBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg> Fullscreen';
-    fsBtn.addEventListener('click', () => openModal(viewerConfig.canvasId, viewerConfig.label));
+    fsBtn.addEventListener('click', () => openModal(vc.canvasId, vc.label));
     slide.appendChild(canvas);
     slide.appendChild(vcMount);
     slide.appendChild(hint);
@@ -960,8 +960,8 @@ function setupMediaSlider(sliderEl, viewerConfig, mediaList) {
     track.appendChild(slide);
     slides.push(slide);
     addDot(true);
-    setupViewer(viewerConfig.canvasId, viewerConfig.canvasId);
-  }
+    setupViewer(vc.canvasId, vc.canvasId);
+  });
 
   // Media slides — each entry is auto-detected as an image or a video
   // by its file extension. Videos get inline playback controls.
@@ -1068,54 +1068,86 @@ function setupViewer(canvasId, canvasId2) {
 }
 
 /* ---------- AUTO-LOAD MODEL ---------- */
-async function autoLoadModel(p, sliderState) {
-  if (typeof p.model !== 'string' || !p.model.trim() || !sliderState) return;
-  const canvasId = 'canvas-' + p.id;
-  const state = viewers[canvasId];
-  if (!state) return;
-  if (sliderState.loadingEl) sliderState.loadingEl.style.display = 'flex';
-  try {
-    const objRes = await fetch(p.model);
-    if (!objRes.ok) throw new Error('not found');
-    const objText = await objRes.text();
-    let materials = null;
-    const mtlPath = p.model.replace(/\.obj$/i, '.mtl');
-    try { const mtlRes = await fetch(mtlPath); if (mtlRes.ok) materials = parseMTL(await mtlRes.text()); } catch (_) {}
-    const obj3d = buildOBJObject(parseOBJ(objText), materials, {});
-    if (sliderState.loadingEl) sliderState.loadingEl.style.display = 'none';
-    frameInto(state, obj3d);
-    const toRad = d => d * Math.PI / 180;
-    const ha = [toRad(p.home[0]), toRad(p.home[1]), toRad(p.home[2] || 0)];
-    state.obj.rotation.set(ha[0], ha[1], ha[2]);
-    state.homeAngles = ha;
-    const fsBtn = document.getElementById('fullscreen-' + p.id);
-    if (fsBtn) fsBtn.style.display = 'flex';
-    buildViewCube(document.getElementById('viewcube-' + p.id), state);
-  } catch (_) {
-    if (sliderState.loadingEl) sliderState.loadingEl.style.display = 'none';
-  }
+async function autoLoadModel(p, viewerConfigs, sliderState) {
+  if (!viewerConfigs || !viewerConfigs.length) return;
+  const loadingEl = sliderState && sliderState.loadingEl;
+  if (loadingEl) loadingEl.style.display = 'flex';
+  const toRad = d => d * Math.PI / 180;
+  const ha = [toRad(p.home[0]), toRad(p.home[1]), toRad(p.home[2] || 0)];
+  await Promise.all(viewerConfigs.map(async vc => {
+    const state = viewers[vc.canvasId];
+    if (!state) return;
+    try {
+      const objRes = await fetch(vc.model);
+      if (!objRes.ok) throw new Error('not found');
+      const objText = await objRes.text();
+      let materials = null;
+      const mtlPath = vc.model.replace(/\.obj$/i, '.mtl');
+      try { const mtlRes = await fetch(mtlPath); if (mtlRes.ok) materials = parseMTL(await mtlRes.text()); } catch (_) {}
+      let textureMap = {};
+      if (materials) {
+        const folder = vc.model.substring(0, vc.model.lastIndexOf('/') + 1);
+        const names = Object.values(materials).map(m => m.map).filter(Boolean);
+        const loader = new THREE.TextureLoader();
+        await Promise.all(Array.from(new Set(names)).map(name => new Promise(res => {
+          loader.load(folder + name, tex => { textureMap[name] = tex; res(); }, undefined, () => res());
+        })));
+      }
+      const obj3d = buildOBJObject(parseOBJ(objText), materials, textureMap);
+      frameInto(state, obj3d);
+      state.obj.rotation.set(ha[0], ha[1], ha[2]);
+      state.homeAngles = ha;
+      const fsBtn = document.getElementById(vc.fullscreenId);
+      if (fsBtn) fsBtn.style.display = 'flex';
+      buildViewCube(document.getElementById(vc.viewcubeId), state);
+    } catch (_) {
+      // This model could not be loaded (missing file or wrong path). Other models still load.
+    }
+  }));
+  if (loadingEl) loadingEl.style.display = 'none';
 }
 
 /* ---------- RENDER LOOP ---------- */
-// Treat model as "present" only when it is a non-empty string path.
-// This safely handles model being set to [], null, or '' meaning no model.
+// model may be a single path string, an array of paths (multiple models),
+// or [] / null / '' meaning no model. modelList normalises all of these.
+function modelList(p) {
+  if (Array.isArray(p.model)) return p.model.filter(m => typeof m === 'string' && m.trim());
+  if (typeof p.model === 'string' && p.model.trim()) return [p.model.trim()];
+  return [];
+}
 function hasModel(p) {
-  return typeof p.model === 'string' && p.model.trim().length > 0;
+  return modelList(p).length > 0;
+}
+function prettyModelName(path) {
+  const base = path.split('/').pop().replace(/\.[^.]+$/, '');
+  return base.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 PROJECTS.forEach(p => {
   renderCard(p);
   const sliderEl = document.getElementById('slider-' + p.id);
-  const viewerConfig = hasModel(p) ? { id: p.id, canvasId: 'canvas-' + p.id, label: p.label } : null;
-  const sliderState = setupMediaSlider(sliderEl, viewerConfig, p.photos);
-  if (hasModel(p)) autoLoadModel(p, sliderState);
+  const models = modelList(p);
+  const multi = models.length > 1;
+  const viewerConfigs = models.map((m, i) => {
+    const suffix = multi ? ('-' + i) : '';
+    return {
+      id: p.id,
+      model: m,
+      canvasId: 'canvas-' + p.id + suffix,
+      viewcubeId: 'viewcube-' + p.id + suffix,
+      fullscreenId: 'fullscreen-' + p.id + suffix,
+      label: multi ? prettyModelName(m) : p.label
+    };
+  });
+  const sliderState = setupMediaSlider(sliderEl, viewerConfigs, p.photos);
+  if (viewerConfigs.length) autoLoadModel(p, viewerConfigs, sliderState);
 });
 
 /* ---------- AUTOMOTIVE MEDIA SLIDERS ---------- */
 // Add photo and/or video paths for each automotive project here.
 // Images and videos are both supported and detected automatically.
 const AUTO_PROJECTS = [
-  { id: 'bmw',  photos: [] },  // e.g. ['images/bmw-1.jpg', 'videos/bmw-walkaround.mp4']
-  { id: 'audi', photos: [] }   // e.g. ['images/audi-1.jpg', 'videos/audi-startup.mp4']
+  { id: 'bmw',  photos: ['images/BMW00.png','images/BMW01.png','images/BMW02.png','images/BMW03.png','images/BMW04.png','images/BMW05.png','images/BMW06.png','images/BMW07.png'] },  // e.g. ['images/bmw-1.jpg', 'videos/bmw-walkaround.mp4']
+  { id: 'audi', photos: ['images/AUDI00.png','images/AUDI01.png','images/AUDI02.png'] }   // e.g. ['images/audi-1.jpg', 'videos/audi-startup.mp4']
 ];
 AUTO_PROJECTS.forEach(ap => {
   const sliderEl = document.getElementById('auto-slider-' + ap.id);
